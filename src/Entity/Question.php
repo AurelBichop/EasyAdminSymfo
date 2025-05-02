@@ -40,7 +40,6 @@ class Question
 
     public function __construct()
     {
-        $this->answers = new ArrayCollection();
     }
 
     public function getId(): ?int
