@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -28,6 +29,11 @@ class UserCrudController extends AbstractCrudController
     {
         yield IdField::new('id', 'ID')
             ->onlyOnIndex();
+        yield ImageField::new('avatar', 'Avatar')
+            ->setBasePath('/uploads/avatars')
+            ->setUploadDir('public/uploads/avatars')
+            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]');
+
         yield EmailField::new('email', 'Email');
         yield UrlField::new('avatarUri', 'Avatar')
             ->hideOnForm();

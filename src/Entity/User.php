@@ -27,10 +27,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
 
     public function getId(): ?int
     {
@@ -114,4 +118,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->getUserIdentifier();
     }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        if (!$this->avatar) {
+            return null;
+        }
+        if (str_contains($this->avatar, '/')) {
+            return $this->avatar;
+        }
+        return sprintf('/uploads/avatars/%s', $this->avatar);
+    }
+
+
 }

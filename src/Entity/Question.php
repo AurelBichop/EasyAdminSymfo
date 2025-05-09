@@ -38,6 +38,9 @@ class Question
     #[ORM\ManyToOne]
     private User $updatedBy;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
     }
@@ -177,5 +180,17 @@ class Question
     public function setUpdatedBy(User $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }
