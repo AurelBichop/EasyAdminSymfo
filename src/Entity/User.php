@@ -105,6 +105,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getAvatarUri(): string
+    {
+        return 'https://avatar.iran.liara.run/public';
+    }
+
     public function __toString(): string
     {
         return $this->getUserIdentifier();
