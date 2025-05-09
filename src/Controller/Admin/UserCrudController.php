@@ -8,10 +8,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -23,11 +26,18 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            EmailField::new('email'),
-            ArrayField::new('roles'),
-            TextField::new('password'),
-        ];
+        yield IdField::new('id', 'ID')
+            ->onlyOnIndex();
+        yield EmailField::new('email', 'Email');
+        yield UrlField::new('avatarUri', 'Avatar')
+            ->hideOnForm();
+        $roles = ['ROLE_USER', 'ROLE_ADMIN'];
+        yield ChoiceField::new('roles', 'Roles')
+            ->setChoices(array_combine($roles, $roles))
+            ->allowMultipleChoices()
+            ->renderExpanded()
+            ->renderAsBadges()
+            ->setHelp('Available roles: ROLE_USER, ROLE_ADMIN');
     }
     public function configureActions(Actions $actions): Actions
     {
